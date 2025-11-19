@@ -1,2 +1,0 @@
-# Lsystem_generator
-
