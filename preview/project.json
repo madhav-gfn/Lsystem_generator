@@ -1,0 +1,13 @@
+{
+  "features": {
+    "Stochastic L-Systems": "Generate organic, tree-like structures with controllable randomness",
+    "Fractal Rendering": "Create intricate snowflakes, curves, and geometric patterns",
+    "Advanced Turtle Graphics": "Extended command set with color, thickness, and shape controls",
+    "Phyllotaxis Patterns": "Specialized renderer for nature-inspired spiral arrangements",
+    "IFS Support": "Barnsley Fern and other Iterated Function System fractals",
+    "Batch Generation": "Create multiple variations with different random seeds",
+    "Multiple Export Formats": "SVG (vector) and PNG (raster) output options",
+    "Real-time Preview": "Interactive web interface with instant visualization",
+    "Preset Library": "Pre-configured examples including plants, snowflakes, and geometric patterns"
+  }
+}
