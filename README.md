@@ -6,19 +6,19 @@
 ![Streamlit](https://img.shields.io/badge/streamlit-1.15+-red.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-## ✨ Features
+##  Features
 
-- **🌳 Stochastic L-Systems**: Generate organic, tree-like structures with controllable randomness
-- **❄️ Fractal Rendering**: Create intricate snowflakes, curves, and geometric patterns
-- **🎨 Advanced Turtle Graphics**: Extended command set with color, thickness, and shape controls
-- **🌸 Phyllotaxis Patterns**: Specialized renderer for nature-inspired spiral arrangements
-- **🌿 IFS Support**: Barnsley Fern and other Iterated Function System fractals
-- **📦 Batch Generation**: Create multiple variations with different random seeds
-- **💾 Multiple Export Formats**: SVG (vector) and PNG (raster) output options
-- **🎯 Real-time Preview**: Interactive web interface with instant visualization
-- **📚 Preset Library**: Pre-configured examples including plants, snowflakes, and geometric patterns
+- ** Stochastic L-Systems**: Generate organic, tree-like structures with controllable randomness
+- ** Fractal Rendering**: Create intricate snowflakes, curves, and geometric patterns
+- ** Advanced Turtle Graphics**: Extended command set with color, thickness, and shape controls
+- ** Phyllotaxis Patterns**: Specialized renderer for nature-inspired spiral arrangements
+- ** IFS Support**: Barnsley Fern and other Iterated Function System fractals
+- ** Batch Generation**: Create multiple variations with different random seeds
+- ** Multiple Export Formats**: SVG (vector) and PNG (raster) output options
+- ** Real-time Preview**: Interactive web interface with instant visualization
+- ** Preset Library**: Pre-configured examples including plants, snowflakes, and geometric patterns
 
-## 🎯 Built-in Presets
+##  Built-in Presets
 
 ### Plants & Trees
 - **Fractal Plant** - Classic deterministic branching structure
@@ -38,7 +38,7 @@
 ### Fractals
 - **Barnsley Fern** - IFS-based fern simulation
 
-## 🚀 Installation
+##  Installation
 
 ### Prerequisites
 
@@ -59,7 +59,7 @@ cd lsystems-ifs-studio
 streamlit run streamlit_lsystems_fractals.py
 ```
 
-## 📖 Usage
+##  Usage
 
 ### Basic Workflow
 
@@ -87,7 +87,7 @@ streamlit run streamlit_lsystems_fractals.py
    - Download SVG (vector) or PNG (raster)
    - Use batch mode for variations
 
-## 🎨 L-System Syntax
+##  L-System Syntax
 
 ### Core Turtle Commands
 
@@ -203,14 +203,14 @@ Angle: 137.5° (golden angle)
 Iterations: 200
 ```
 
-## 📊 Performance Notes
+##  Performance Notes
 
 - **Simple L-Systems** (5 iterations): ~0.2s generation time
 - **Stochastic Trees** (7 iterations): ~0.8s generation time
 - **IFS Fractals** (100k points): ~1.5s rendering time
 - **Hybrid Outputs**: ~2-3s for complex compositions
 
-## 🛠️ Technical Architecture
+##  Technical Architecture
 
 ### Core Components
 
@@ -238,7 +238,7 @@ Iterations: 200
 **Issue**: Slow rendering
 - **Solution**: Decrease output resolution or iteration count
 
-## 📝 Tips & Best Practices
+##  Tips & Best Practices
 
 - Start with low iterations (3-5) when experimenting
 - Use stochastic rules for organic variation
@@ -248,7 +248,7 @@ Iterations: 200
 - Export SVG for infinite scalability
 - Use Phyllotaxis preset for nature-inspired patterns
 
-## 🤝 Contributing
+##  Contributing
 
 Contributions are welcome! Areas for enhancement:
 
@@ -259,11 +259,11 @@ Contributions are welcome! Areas for enhancement:
 - Interactive grammar editor
 - Parameter optimization tools
 
-## 📄 License
+## Example Images
+<img width="705" height="575" alt="image" src="https://github.com/user-attachments/assets/d0a6b9e6-60fb-4fe4-99bb-d0b01d4754f6" />
 
-This project is open source and available under the MIT License.
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 Based on the theoretical foundations of:
 - Aristid Lindenmayer (L-systems, 1968)
