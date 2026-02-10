@@ -8,7 +8,7 @@
 
 ##  Features
 
-- ** Stochastic L-Systems**: Generate organic, tree-like structures with controllable randomness
+- * Stochastic L-Systems**: Generate organic, tree-like structures with controllable randomness
 - ** Fractal Rendering**: Create intricate snowflakes, curves, and geometric patterns
 - ** Advanced Turtle Graphics**: Extended command set with color, thickness, and shape controls
 - ** Phyllotaxis Patterns**: Specialized renderer for nature-inspired spiral arrangements
