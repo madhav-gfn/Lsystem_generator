@@ -17,8 +17,9 @@ Functions:
 """
 
 import json
+import logging
 
-import streamlit as st
+logger = logging.getLogger(__name__)
 
 
 # ---------------------------------------------------------------------------
@@ -380,7 +381,7 @@ def build_threejs_params(geometry_dict, colors, animation_speed=1.0,
             keep = max(100, len(payload["points"]) // 2)
             payload["points"] = payload["points"][:keep]
         serialized = json.dumps(payload, separators=(",", ":"))
-        st.warning(
+        logger.warning(
             f"React payload exceeded {MAX_REACT_PAYLOAD_BYTES:,} bytes — "
             f"geometry was truncated to fit."
         )

@@ -10,9 +10,10 @@ Functions:
 
 import math
 import random
+import logging
 from typing import Dict, List, Tuple
 
-import streamlit as st
+logger = logging.getLogger(__name__)
 
 
 def weighted_choice(choices, rng: random.Random):
@@ -40,7 +41,7 @@ def generate_lsystem(axiom: str, rules: Dict[str, List[Tuple[str, float]]],
     current = axiom
     for i in range(iterations):
         if len(current) > max_length:
-            st.warning(f"String too large at iteration {i}; stopping further expansion.")
+            logger.warning(f"String too large at iteration {i}; stopping further expansion.")
             break
         out = []
         for c in current:
