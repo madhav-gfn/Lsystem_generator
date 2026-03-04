@@ -1,3 +1,4 @@
+all that is outside of frontend and backend folder is the older modularized code that did the all the basic intended tasks
 # 🌿 L-Systems & IFS Studio
 
 > A powerful procedural art generator combining Lindenmayer Systems with Iterated Function Systems for creating stunning fractal and organic visualizations.
