@@ -4,6 +4,7 @@ export default function CanvasPreview({ geometry }) {
     const containerRef = useRef(null);
     const canvasRef = useRef(null);
     const animationRef = useRef(null);
+    const drawRef = useRef(null);
     const stateRef = useRef({ angle: 0, parallaxX: 0, parallaxY: 0, mx: 0, my: 0 });
 
     const draw = useCallback(() => {
@@ -120,8 +121,12 @@ export default function CanvasPreview({ geometry }) {
         }
 
         ctx.restore();
-        animationRef.current = requestAnimationFrame(draw);
+        animationRef.current = requestAnimationFrame(() => drawRef.current && drawRef.current());
     }, [geometry]);
+
+    useEffect(() => {
+        drawRef.current = draw;
+    }, [draw]);
 
     useEffect(() => {
         const container = containerRef.current;

@@ -7,8 +7,6 @@ Run:
     uvicorn main:app --reload --port 8000
 """
 
-import sys
-import os
 import io
 import json
 import zipfile
@@ -20,9 +18,6 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel, Field
-
-# Add parent dir so we can import existing modules
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from presets import LSYS_PRESETS
 from lsystem_core import generate_lsystem, interpret_turtle
@@ -45,15 +40,16 @@ from PIL import Image
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# ---------------------------------------------------------------------------
-# FastAPI app
-# ---------------------------------------------------------------------------
+import os
 
 app = FastAPI(title="L-Systems & IFS Studio API", version="1.0.0")
 
+_raw_origins = os.getenv("ALLOWED_ORIGINS", "*")
+_origins = [o.strip() for o in _raw_origins.split(",")] if _raw_origins != "*" else ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

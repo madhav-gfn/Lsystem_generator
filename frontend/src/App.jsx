@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import Sidebar from './components/Sidebar';
 import LSystemPage from './components/LSystemPage';
 import IFSPage from './components/IFSPage';
+import DocsPage from './components/DocsPage';
 import { fetchPresets } from './services/api';
 import './index.css';
 
@@ -88,7 +89,7 @@ export default function App() {
     <div className="app-layout">
       {/* Top Header */}
       <header className="app-header">
-        <div className="app-header-logo">
+        <div className="app-header-logo" onClick={() => setMode('lsystem')} style={{ cursor: 'pointer' }}>
           <div className="app-header-icon">
             <span className="material-symbols-outlined">account_tree</span>
           </div>
@@ -96,17 +97,15 @@ export default function App() {
           <span className="app-header-version">V 2.0.4</span>
         </div>
         <nav className="app-header-nav">
-          <a href="#">
-            <span className="material-symbols-outlined">grid_view</span> Gallery
-          </a>
-          <a href="#">
+          <a
+            href="#"
+            className={mode === 'docs' ? 'nav-active' : ''}
+            onClick={(e) => { e.preventDefault(); setMode('docs'); }}
+          >
             <span className="material-symbols-outlined">menu_book</span> Docs
           </a>
           <a href="#">
             <span className="material-symbols-outlined">output</span> Export
-          </a>
-          <a href="#">
-            <span className="material-symbols-outlined">settings</span> Config
           </a>
         </nav>
       </header>
@@ -114,25 +113,29 @@ export default function App() {
       {/* Main Workspace */}
       <div className="app-workspace">
         {/* Left: Canvas / Content */}
-        {mode === 'lsystem' ? (
+        {mode === 'docs' ? (
+          <DocsPage />
+        ) : mode === 'lsystem' ? (
           <LSystemPage lsystemParams={lsystemParams} reactParams={reactParams} />
         ) : (
           <IFSPage ifsParams={ifsParams} reactParams={reactParams} />
         )}
 
-        {/* Right: Sidebar */}
-        <Sidebar
-          mode={mode}
-          onModeChange={setMode}
-          presets={presets}
-          presetNames={presetNames}
-          lsystemParams={lsystemParams}
-          onLSystemChange={handleLSystemChange}
-          reactParams={reactParams}
-          onReactChange={handleReactChange}
-          ifsParams={ifsParams}
-          onIFSChange={handleIFSChange}
-        />
+        {/* Right: Sidebar (hidden in docs mode) */}
+        {mode !== 'docs' && (
+          <Sidebar
+            mode={mode}
+            onModeChange={setMode}
+            presets={presets}
+            presetNames={presetNames}
+            lsystemParams={lsystemParams}
+            onLSystemChange={handleLSystemChange}
+            reactParams={reactParams}
+            onReactChange={handleReactChange}
+            ifsParams={ifsParams}
+            onIFSChange={handleIFSChange}
+          />
+        )}
       </div>
     </div>
   );

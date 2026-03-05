@@ -8,9 +8,13 @@ import {
 import CanvasPreview from './CanvasPreview';
 import CodeViewer from './CodeViewer';
 
+const MIN_LOADING_MS = 5000;
+
 export default function IFSPage({ ifsParams, reactParams }) {
     const [activeTab, setActiveTab] = useState('image');
     const [loading, setLoading] = useState(false);
+    const [showOverlay, setShowOverlay] = useState(false);
+    const [loadingLabel, setLoadingLabel] = useState('');
     const [error, setError] = useState(null);
 
     const [pngUrl, setPngUrl] = useState(null);
@@ -18,45 +22,39 @@ export default function IFSPage({ ifsParams, reactParams }) {
     const [geometry, setGeometry] = useState(null);
     const [reactSource, setReactSource] = useState(null);
 
-    const handleGeneratePNG = async () => {
+    const withMinDelay = async (label, fn) => {
         setLoading(true);
+        setShowOverlay(true);
+        setLoadingLabel(label);
         setError(null);
+        const start = Date.now();
         try {
-            const blob = await generateIFSPng(ifsParams);
-            setPngBlob(blob);
-            setPngUrl(URL.createObjectURL(blob));
+            await fn();
         } catch (e) {
             setError(e.message);
-        } finally {
-            setLoading(false);
         }
+        const elapsed = Date.now() - start;
+        const remaining = MIN_LOADING_MS - elapsed;
+        if (remaining > 0) await new Promise(r => setTimeout(r, remaining));
+        setLoading(false);
+        setShowOverlay(false);
     };
 
-    const handleGeneratePreview = async () => {
-        setLoading(true);
-        setError(null);
-        try {
-            const geo = await generateIFSGeometry({ iterations: ifsParams.iterations, react: reactParams });
-            setGeometry(geo);
-        } catch (e) {
-            setError(e.message);
-        } finally {
-            setLoading(false);
-        }
-    };
+    const handleGeneratePNG = () => withMinDelay('Rendering Fern', async () => {
+        const blob = await generateIFSPng(ifsParams);
+        setPngBlob(blob);
+        setPngUrl(URL.createObjectURL(blob));
+    });
 
-    const handleGenerateReact = async () => {
-        setLoading(true);
-        setError(null);
-        try {
-            const data = await generateIFSReact({ iterations: ifsParams.iterations, react: reactParams });
-            setReactSource(data);
-        } catch (e) {
-            setError(e.message);
-        } finally {
-            setLoading(false);
-        }
-    };
+    const handleGeneratePreview = () => withMinDelay('Building Preview', async () => {
+        const geo = await generateIFSGeometry({ iterations: ifsParams.iterations, react: reactParams });
+        setGeometry(geo);
+    });
+
+    const handleGenerateReact = () => withMinDelay('Compiling React Component', async () => {
+        const data = await generateIFSReact({ iterations: ifsParams.iterations, react: reactParams });
+        setReactSource(data);
+    });
 
     // Listen for "Execute Build" from sidebar
     useEffect(() => {
@@ -162,10 +160,21 @@ export default function IFSPage({ ifsParams, reactParams }) {
                 )}
             </div>
 
-            {loading && (
-                <div className="status-bar">
-                    <div className="spinner" style={{ width: 14, height: 14, borderWidth: 2 }} />
-                    Processing build...
+            {showOverlay && (
+                <div className="loading-overlay">
+                    <div className="loading-overlay-content">
+                        <div className="loading-fractal">
+                            <div className="loading-fractal-ring" />
+                            <div className="loading-fractal-ring ring-2" />
+                            <div className="loading-fractal-ring ring-3" />
+                            <div className="loading-fractal-core" />
+                        </div>
+                        <h3 className="loading-title">{loadingLabel}</h3>
+                        <p className="loading-subtitle">Processing IFS pipeline...</p>
+                        <div className="loading-progress-track">
+                            <div className="loading-progress-bar" />
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

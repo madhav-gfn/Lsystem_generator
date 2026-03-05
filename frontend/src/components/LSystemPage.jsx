@@ -10,9 +10,13 @@ import {
 import CanvasPreview from './CanvasPreview';
 import CodeViewer from './CodeViewer';
 
+const MIN_LOADING_MS = 5000;
+
 export default function LSystemPage({ lsystemParams, reactParams }) {
     const [activeTab, setActiveTab] = useState('svg');
     const [loading, setLoading] = useState(false);
+    const [showOverlay, setShowOverlay] = useState(false);
+    const [loadingLabel, setLoadingLabel] = useState('');
     const [error, setError] = useState(null);
 
     // Tab data
@@ -23,76 +27,54 @@ export default function LSystemPage({ lsystemParams, reactParams }) {
     const [reactSource, setReactSource] = useState(null);
     const [batchCount, setBatchCount] = useState(1);
 
+    const withMinDelay = async (label, fn) => {
+        setLoading(true);
+        setShowOverlay(true);
+        setLoadingLabel(label);
+        setError(null);
+        const start = Date.now();
+        try {
+            await fn();
+        } catch (e) {
+            setError(e.message);
+        }
+        const elapsed = Date.now() - start;
+        const remaining = MIN_LOADING_MS - elapsed;
+        if (remaining > 0) await new Promise(r => setTimeout(r, remaining));
+        setLoading(false);
+        setShowOverlay(false);
+    };
+
     const buildPayload = () => ({
         ...lsystemParams,
         seed: lsystemParams.seed || null,
     });
 
-    const handleGenerateSVG = async () => {
-        setLoading(true);
-        setError(null);
-        try {
-            const data = await generateSVG(buildPayload());
-            setSvgData(data);
-        } catch (e) {
-            setError(e.message);
-        } finally {
-            setLoading(false);
-        }
-    };
+    const handleGenerateSVG = () => withMinDelay('Generating SVG', async () => {
+        const data = await generateSVG(buildPayload());
+        setSvgData(data);
+    });
 
-    const handleGeneratePNG = async () => {
-        setLoading(true);
-        setError(null);
-        try {
-            const blob = await generatePNG(buildPayload());
-            setPngBlob(blob);
-            setPngUrl(URL.createObjectURL(blob));
-        } catch (e) {
-            setError(e.message);
-        } finally {
-            setLoading(false);
-        }
-    };
+    const handleGeneratePNG = () => withMinDelay('Rendering PNG', async () => {
+        const blob = await generatePNG(buildPayload());
+        setPngBlob(blob);
+        setPngUrl(URL.createObjectURL(blob));
+    });
 
-    const handleGeneratePreview = async () => {
-        setLoading(true);
-        setError(null);
-        try {
-            const geo = await generateGeometry({ lsystem: buildPayload(), react: reactParams });
-            setGeometry(geo);
-        } catch (e) {
-            setError(e.message);
-        } finally {
-            setLoading(false);
-        }
-    };
+    const handleGeneratePreview = () => withMinDelay('Building Preview', async () => {
+        const geo = await generateGeometry({ lsystem: buildPayload(), react: reactParams });
+        setGeometry(geo);
+    });
 
-    const handleGenerateReact = async () => {
-        setLoading(true);
-        setError(null);
-        try {
-            const data = await generateReactComponent({ lsystem: buildPayload(), react: reactParams });
-            setReactSource(data);
-        } catch (e) {
-            setError(e.message);
-        } finally {
-            setLoading(false);
-        }
-    };
+    const handleGenerateReact = () => withMinDelay('Compiling React Component', async () => {
+        const data = await generateReactComponent({ lsystem: buildPayload(), react: reactParams });
+        setReactSource(data);
+    });
 
-    const handleBatch = async () => {
-        setLoading(true);
-        setError(null);
-        try {
-            const blob = await generateBatch({ lsystem: buildPayload(), count: batchCount });
-            saveAs(blob, 'lsystem_batch.zip');
-        } catch (e) {
-            setError(e.message);
-        } finally {
-            setLoading(false);
-        }
-    };
+    const handleBatch = () => withMinDelay(`Generating ${batchCount} Variations`, async () => {
+        const blob = await generateBatch({ lsystem: buildPayload(), count: batchCount });
+        saveAs(blob, 'lsystem_batch.zip');
+    });
 
     // Listen for "Execute Build" from sidebar
     useEffect(() => {
@@ -264,10 +246,21 @@ export default function LSystemPage({ lsystemParams, reactParams }) {
                 )}
             </div>
 
-            {loading && (
-                <div className="status-bar">
-                    <div className="spinner" style={{ width: 14, height: 14, borderWidth: 2 }} />
-                    Processing build...
+            {showOverlay && (
+                <div className="loading-overlay">
+                    <div className="loading-overlay-content">
+                        <div className="loading-fractal">
+                            <div className="loading-fractal-ring" />
+                            <div className="loading-fractal-ring ring-2" />
+                            <div className="loading-fractal-ring ring-3" />
+                            <div className="loading-fractal-core" />
+                        </div>
+                        <h3 className="loading-title">{loadingLabel}</h3>
+                        <p className="loading-subtitle">Processing L-System pipeline...</p>
+                        <div className="loading-progress-track">
+                            <div className="loading-progress-bar" />
+                        </div>
+                    </div>
                 </div>
             )}
         </div>
