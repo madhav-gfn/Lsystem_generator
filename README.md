@@ -1,4 +1,4 @@
-all that is outside of frontend and backend folder is the older modularized code that did the all the basic intended tasks
+not updated
 # 🌿 L-Systems & IFS Studio
 
 > A powerful procedural art generator combining Lindenmayer Systems with Iterated Function Systems for creating stunning fractal and organic visualizations.
@@ -10,14 +10,14 @@ all that is outside of frontend and backend folder is the older modularized code
 ##  Features
 
 - **Stochastic L-Systems**: Generate organic, tree-like structures with controllable randomness
-- ** Fractal Rendering**: Create intricate snowflakes, curves, and geometric patterns
-- ** Advanced Turtle Graphics**: Extended command set with color, thickness, and shape controls
-- ** Phyllotaxis Patterns**: Specialized renderer for nature-inspired spiral arrangements
-- ** IFS Support**: Barnsley Fern and other Iterated Function System fractals
-- ** Batch Generation**: Create multiple variations with different random seeds
-- ** Multiple Export Formats**: SVG (vector) and PNG (raster) output options
-- ** Real-time Preview**: Interactive web interface with instant visualization
-- ** Preset Library**: Pre-configured examples including plants, snowflakes, and geometric patterns
+- **Fractal Rendering**: Create intricate snowflakes, curves, and geometric patterns
+- **Advanced Turtle Graphics**: Extended command set with color, thickness, and shape controls
+- **Phyllotaxis Patterns**: Specialized renderer for nature-inspired spiral arrangements
+- **IFS Support**: Barnsley Fern and other Iterated Function System fractals
+- **Batch Generation**: Create multiple variations with different random seeds
+- **Multiple Export Formats**: SVG (vector) and PNG (raster) output options
+- **Real-time Preview**: Interactive web interface with instant visualization
+- **Preset Library**: Pre-configured examples including plants, snowflakes, and geometric patterns
 
 ##  Built-in Presets
 
