@@ -131,6 +131,9 @@ def _normalize_rules(rules_raw: Dict[str, list]) -> Dict[str, List[Tuple[str, fl
 # ---------------------------------------------------------------------------
 # Endpoints
 # ---------------------------------------------------------------------------
+@app.head("/api/presets")
+def health_check():
+    return JSONResponse(content={"status": "ok"})
 
 @app.get("/api/presets")
 def get_presets():
